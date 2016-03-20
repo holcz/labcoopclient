@@ -3,14 +3,12 @@ package com.labcoop.hw.meals.views;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,38 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.labcoop.hw.meals.R;
-import com.labcoop.hw.meals.controllers.MealCallback;
-import com.labcoop.hw.meals.controllers.MealController;
-import com.labcoop.hw.meals.controllers.UserDataCallback;
-import com.labcoop.hw.meals.controllers.UserDataHandler;
-import com.labcoop.hw.meals.models.Meal;
-import com.labcoop.hw.meals.models.User;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.Authenticator;
-import java.net.HttpURLConnection;
-import java.net.PasswordAuthentication;
-import java.net.URL;
-import java.util.Collection;
+import com.labcoop.hw.meals.controllers.authenticate.AuthenticateCallback;
+import com.labcoop.hw.meals.controllers.authenticate.Profile;
+import com.labcoop.hw.meals.views.meal.MealsActivity;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via username/password.
  */
 public class LoginActivity extends AppCompatActivity {
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private EditText mUsernameView;
@@ -89,6 +63,23 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        if (isUserRegisteredAndLogedIn()){
+            startMealsActivity();
+        }else{
+            //Let the user log in
+        }
+    }
+
+    private boolean isUserRegisteredAndLogedIn(){
+        Profile.initialize(this);
+        return Profile.getInstance().getAuthenticator().isRegistered();
+    }
+
+    protected void startMealsActivity(){
+        Intent intent = new Intent(this, MealsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     /**
@@ -97,16 +88,13 @@ public class LoginActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mUsernameView.getText().toString();
+        String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -119,33 +107,28 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        // Check for a valid username address.
+        if (TextUtils.isEmpty(username)) {
             mUsernameView.setError(getString(R.string.error_field_required));
             focusView = mUsernameView;
             cancel = true;
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             showProgress(true);
-
-            UserDataHandler.getInstance().getUser(new UserDataCallback() {
+            Profile.getInstance().getAuthenticator().login(username, password.toCharArray(), new AuthenticateCallback() {
                 @Override
-                public void onUserDataAvailable(User user) {
-                    Log.d("LoginActivity", user.toString());
-                }
-            });
-
-            MealController.getInstance().find(new MealCallback() {
-                @Override
-                public void onMealAvaiable(Collection<Meal> meals) {
-                    Log.d("LoginActivity", meals.toString());
+                public void authenticated(boolean success, String err) {
+                    showProgress(false);
+                    if (success){
+                        startMealsActivity();
+                    }else{
+                        mPasswordView.setText("");
+                        mPasswordView.requestFocus();
+                        Toast.makeText(LoginActivity.this, err, Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -189,94 +172,6 @@ public class LoginActivity extends AppCompatActivity {
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            URL url = null;
-            try {
-                url = new URL("http://192.168.2.59:1221/api/user");
-            }catch (Exception e){
-                //Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
-                Log.d("exception", e.getMessage());
-            }
-
-            Authenticator.setDefault(new Authenticator() {
-
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("holcz", "holcz".toCharArray());
-                }
-            });
-
-            HttpURLConnection urlConnection = null;
-            try{
-                urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                byte[] contents = new byte[1024];
-                int bytesRead = 0;
-                while ((bytesRead = in.read(contents)) != -1) {
-                    Log.d("http", new String(contents, 0, bytesRead));
-                }
-            }catch(
-                    IOException e
-                    )
-            {
-                Log.d("exception", e.getMessage());
-            } finally
-            {
-                urlConnection.disconnect();
-            }
-
-            for(
-                    String credential
-                    :DUMMY_CREDENTIALS)
-
-            {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }

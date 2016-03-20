@@ -14,19 +14,19 @@ import java.net.PasswordAuthentication;
 /**
  * Created by holcz on 11/03/16.
  */
-public class UserDataHandler { //TODO: Find a much better name! Should be refactor and use persistent data storage on device
+public class UserController { //TODO: Find a much better name! Should be refactor and use persistent data storage on device
 
     private static final String restAPIUrl = ConnectionHelper.devURL + "/user";
 
     private User mUser; //TODO: definitely should use presistent data storage (ContentProvider)
 
     //TODO: maybe not the best approach of using singleton, even DCL can be broken in Java
-    private static UserDataHandler instance;
-    public static UserDataHandler getInstance(){
+    private static UserController instance;
+    public static UserController getInstance(){
         if (instance == null){
-            synchronized (UserDataHandler.class){
+            synchronized (UserController.class){
                 if (instance == null){
-                    instance = new UserDataHandler();
+                    instance = new UserController();
                 }
             }
         }
@@ -34,7 +34,7 @@ public class UserDataHandler { //TODO: Find a much better name! Should be refact
     }
 
     //TODO: refactor. Implement the profiling separately
-    private UserDataHandler(){
+    private UserController(){
         Authenticator.setDefault(new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {

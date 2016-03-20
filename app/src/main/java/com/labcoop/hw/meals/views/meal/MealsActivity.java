@@ -19,9 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.labcoop.hw.meals.R;
+import com.labcoop.hw.meals.controllers.MealCallback;
+import com.labcoop.hw.meals.controllers.MealController;
 import com.labcoop.hw.meals.controllers.authenticate.AuthenticateCallback;
 import com.labcoop.hw.meals.controllers.authenticate.Profile;
+import com.labcoop.hw.meals.models.Meal;
 import com.labcoop.hw.meals.views.LoginActivity;
+
+import java.util.Collection;
 
 public class MealsActivity extends AppCompatActivity {
 
@@ -101,6 +106,9 @@ public class MealsActivity extends AppCompatActivity {
             case R.id.action_logout:
                 logOut();
                 return true;
+            case R.id.action_refresh:
+                refreshMealList();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -118,17 +126,30 @@ public class MealsActivity extends AppCompatActivity {
         });
     }
 
+    private void refreshMealList(){
+        MealController.getInstance().refresh(new MealCallback() {
+            @Override
+            public void onMealAvaiable(Collection<Meal> meals) {
+                updateCurrentMealFragment();
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CREATE_MEAL_REQUEST_ID){
             if (resultCode == Activity.RESULT_OK){
-                MealListFragment selectedFragment = getFragment(mViewPager.getCurrentItem());
-                if (selectedFragment != null){
-                    selectedFragment.updateMeals();
-                }
+                updateCurrentMealFragment();
                 Snackbar.make(mViewPager, "Meal created.", Snackbar.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void updateCurrentMealFragment(){
+        MealListFragment selectedFragment = getFragment(mViewPager.getCurrentItem());
+        if (selectedFragment != null){
+            selectedFragment.updateMeals();
         }
     }
 

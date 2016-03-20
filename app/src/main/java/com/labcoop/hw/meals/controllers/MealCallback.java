@@ -8,6 +8,6 @@ import java.util.Collection;
  * Created by holcz on 14/03/16.
  */
 public interface MealCallback {
-
+    //TODO: ERROR handling!!!
     public void onMealAvaiable(Collection<Meal> meals);
 }

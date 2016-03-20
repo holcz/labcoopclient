@@ -64,7 +64,11 @@ public class Meal {
 
     @Override
     public boolean equals(Object o) {
-        return id.equals(o);
+        if (o instanceof Meal){
+            Meal other = (Meal) o;
+            return id.equals(other.getId());
+        }
+        return false;
     }
 
     @Override

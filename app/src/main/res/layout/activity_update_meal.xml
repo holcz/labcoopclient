@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".views.meal.UpdateMealActivity"
+    android:orientation="vertical"
+    android:id="@+id/updateMealRoot">
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateMealText"
+        android:hint="@string/title_activity_text_hint"
+        android:layout_margin="@dimen/text_margin"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/updateMealDate"
+        android:layout_margin="@dimen/text_margin"
+        android:hint="@string/update_activity_date_hint"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/updateMealCalories"
+        android:layout_margin="@dimen/text_margin"
+        android:hint="@string/update_activity_calories_hint"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/update_activity_delete_button"
+            android:id="@+id/updateMealDeleteButton"
+            android:layout_gravity="left" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/update_activity_save_button"
+            android:id="@+id/updateMealSaveButton"
+            android:layout_gravity="right" />
+    </LinearLayout>
+
+</LinearLayout>

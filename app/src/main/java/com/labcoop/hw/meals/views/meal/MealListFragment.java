@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 import com.labcoop.hw.meals.R;
 import com.labcoop.hw.meals.controllers.MealCallback;
@@ -16,7 +15,6 @@ import com.labcoop.hw.meals.controllers.MealController;
 import com.labcoop.hw.meals.models.Meal;
 import com.labcoop.hw.meals.views.adapters.ListAdapterFilter;
 import com.labcoop.hw.meals.views.adapters.MealListAdapter;
-import com.labcoop.hw.meals.views.meal.UpdateMealActivity;
 
 import java.util.Collection;
 
@@ -54,7 +52,7 @@ public abstract class MealListFragment extends ListFragment implements AdapterVi
         MealController.getInstance().find(new MealCallback() {
             @Override
             public void onMealAvaiable(Collection<Meal> meals) {
-                if (meals != null) {
+                if (meals != null && mealListAdapter != null) {
                     mealListAdapter.update(meals);
                 }
             }

@@ -52,6 +52,21 @@ public class MealsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                MealListFragment selectedFragment = getFragment(position);
+                if (selectedFragment != null){
+                    selectedFragment.updateMeals();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -108,12 +123,11 @@ public class MealsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CREATE_MEAL_REQUEST_ID){
             if (resultCode == Activity.RESULT_OK){
-                //TODO: Should update all of the fragments
-                Snackbar.make(mViewPager, "Meal created.", Snackbar.LENGTH_SHORT).show();
-                Fragment fragment = mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
-                if (fragment instanceof  MealListFragment){
-                    ((MealListFragment) fragment).updateMeals();
+                MealListFragment selectedFragment = getFragment(mViewPager.getCurrentItem());
+                if (selectedFragment != null){
+                    selectedFragment.updateMeals();
                 }
+                Snackbar.make(mViewPager, "Meal created.", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -124,6 +138,18 @@ public class MealsActivity extends AppCompatActivity {
         finish();
     }
 
+    private MealListFragment getFragment(int position){
+        switch (position){
+            case 0:
+                return MealsActivity.this.todayListFragment;
+            case 1:
+                return MealsActivity.this.userDefaultFilterFragment;
+            case 2:
+                return MealsActivity.this.customFilterFragment;
+        }
+        return  null;
+    }
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -132,15 +158,7 @@ public class MealsActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
-                case 0:
-                    return MealsActivity.this.todayListFragment;
-                case 1:
-                    return MealsActivity.this.userDefaultFilterFragment;
-                case 2:
-                    return MealsActivity.this.customFilterFragment;
-            }
-            return  null;
+            return getFragment(position);
         }
 
         @Override

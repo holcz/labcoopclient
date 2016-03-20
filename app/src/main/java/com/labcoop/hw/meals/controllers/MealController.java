@@ -16,7 +16,9 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ public class MealController { //TODO: create an interface
     private static final String restAPIUrl = Profile.HttpAuthenticator.devURL+ "/meals";
 
     //TODO: implement persistent storage in the device
-    Set<Meal> meals;
+    private Set<Meal> meals;
 
     private static MealController instance;
 
@@ -45,36 +47,21 @@ public class MealController { //TODO: create an interface
 
     private MealController(){
         meals = new HashSet<>();
-        Authenticator.setDefault(new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("holcz", "holcz".toCharArray());
-            }
-        });
     }
 
     public void find(final MealCallback callback){
-        new RESTTask(new RESTTaskCallback() {
-            @Override
-            public void onDataReceived(String result) {
-                List<Meal> meals = parseJSON(result);
-                updateListInMemory(meals);
-                callback.onMealAvaiable(meals);
-            }
-        }).execute("GET", restAPIUrl);
-
-//        if (!meals.isEmpty()){
-//            callback.onMealAvaiable(meals);
-//        }else{
-//            new RESTTask(new RESTTaskCallback() {
-//                @Override
-//                public void onDataReceived(String result) {
-//                    List<Meal> meals = parseJSON(result);
-//                    updateListInMemory(meals);
-//                    callback.onMealAvaiable(meals);
-//                }
-//            }).execute("GET", restAPIUrl);
-//        }
+        if (!meals.isEmpty()){
+            callback.onMealAvaiable(meals);
+        }else{
+            new RESTTask(new RESTTaskCallback() {
+                @Override
+                public void onDataReceived(String result) {
+                    List<Meal> meals = parseJSON(result);
+                    updateListInMemory(meals);
+                    callback.onMealAvaiable(meals);
+                }
+            }).execute("GET", restAPIUrl);
+        }
     }
 
     public void find(String id, final MealCallback callback){
@@ -102,17 +89,27 @@ public class MealController { //TODO: create an interface
         }
     }
 
-    public void delete(String mealId, final MealCallback callback){
+    public void delete(final String mealId, final MealCallback callback){
         String url = restAPIUrl + "/" + mealId;
         new RESTTask(new RESTTaskCallback() {
             @Override
             public void onDataReceived(String result) {
+                boolean success = parseDeleteJSONMessage(result);
+                if (success){
+                    removeMealFromMemory(mealId);
+                    callback.onMealAvaiable(null);
+                }
             }
-        }).execute("DELETE",url);
+        }).execute("DELETE", url);
     }
 
     public void delete(Meal meal, final MealCallback callback){
         delete(meal.getId(), callback);
+    }
+
+    public void refresh(MealCallback callback){
+        clearMemory();
+        find(callback);
     }
 
     protected void post(Meal meal, final MealCallback callback){
@@ -188,14 +185,42 @@ public class MealController { //TODO: create an interface
         Meal meal = new Meal(id, date, calories, text);
         meals.add(meal);
     }
+
+    protected boolean parseDeleteJSONMessage(String json){
+        try {
+            JSONTokener tokener = new JSONTokener(json);
+            JSONObject object = (JSONObject) tokener.nextValue();
+            String message = object.getString("message");
+            return message != null && message.toLowerCase().contains("success");
+        }catch (JSONException e){
+            //the response can be in the object or in the data object
+            Log.e("MealController",e.getMessage(),e);
+            return false;
+        }
+    }
     
-    protected void updateListInMemory(List<Meal> meals){
+    protected synchronized void updateListInMemory(List<Meal> meals){
         for (Meal meal: meals) {
             if (this.meals.contains(meal)){
                 this.meals.remove(meal);
             }
             this.meals.add(meal);
         }
+    }
+
+    protected synchronized void removeMealFromMemory(String mealId){
+        Iterator<Meal> iterator =  meals.iterator();
+        while (iterator.hasNext()){
+            Meal meal = iterator.next();
+            if (meal.getId().equals(mealId)){
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
+    protected synchronized void clearMemory(){
+        meals.clear();
     }
     
     protected Meal find(String id){

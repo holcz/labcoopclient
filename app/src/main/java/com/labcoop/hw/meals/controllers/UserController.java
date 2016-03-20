@@ -1,8 +1,5 @@
 package com.labcoop.hw.meals.controllers;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.labcoop.hw.meals.controllers.authenticate.Profile;
@@ -12,19 +9,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
-
 /**
  * Created by holcz on 11/03/16.
  */
-public class UserController { //TODO: Find a much better name! Should be refactor and use persistent data storage on device
-
-    private static final String SHARED_PREFERENCIES = "Mealify";
+public class UserController {
 
     private static final String USER_ID = "_id";
-//    private static final String USER_USERNAME = "username";
-//    private static final String USER_PASSWORD = "password";
+    private static final String USER_USERNAME = "username";
     private static final String USER_EMAIL = "email";
     private static final String USER_FNAME = "firstname";
     private static final String USER_LNAME = "lastname";
@@ -33,7 +24,9 @@ public class UserController { //TODO: Find a much better name! Should be refacto
 
     private static final String restAPIUrl = Profile.HttpAuthenticator.devURL + "/user";
 
-    private User mUser; //TODO: definitely should use presistent data storage (ContentProvider)
+    private User mUser;
+    //TODO: definitely should use presistent data storage (ContentProvider)
+    //TODO: Shared Preferences should be enough
 
     //TODO: maybe not the best approach of using singleton, even DCL can be broken in Java
     private static UserController instance;
@@ -49,7 +42,7 @@ public class UserController { //TODO: Find a much better name! Should be refacto
         return instance;
     }
 
-    public void getUser(final UserDataCallback callback){
+    public void find(final UserCallback callback){
         if (mUser != null){
             callback.onUserDataAvailable(mUser); //TODO: use persistency here
         }
@@ -63,24 +56,27 @@ public class UserController { //TODO: Find a much better name! Should be refacto
                     }
                 }catch (JSONException e){
                     Log.e("UserHandler",e.getMessage(),e);
+                    callback.onUserDataAvailable(null);
                 }
 
             }
         }).execute(restAPIUrl);
     }
 
-    protected User parseFromJSON(String json) throws JSONException {
-        JSONObject object = (JSONObject) new JSONTokener(json).nextValue();
-        String id = object.getString("_id");
-        String username = object.getString("username");
-        String email = object.getString("email");
-        String firstName = object.getString("firstname");
-        String lastName = object.getString("lastname");
-        String gender = object.getString("gender");
-        Integer maxCalories = object.getInt("maxCalories");
-        return new User(id,username,email,firstName,lastName,maxCalories,gender);
+    public synchronized void refresh(UserCallback callback){
+        mUser = null;
+        find(callback);
     }
 
-    //{"_id":"56dc433d95e8b59d35de3d8d","username":"holcz","password":"$2a$05$VmW4p8LZ7DeuWzMdO9eTeuzKoY.n7GnnuC0Ky.aOvUi9QwzMwbKEy","email":"new@new.hu","firstname":"","lastname":"","gender":"","__v":0,"maxCalories":0}//
-
+    protected User parseFromJSON(String json) throws JSONException {
+        JSONObject object = (JSONObject) new JSONTokener(json).nextValue();
+        String id = object.getString(USER_ID);
+        String username = object.getString(USER_USERNAME);
+        String email = object.getString(USER_EMAIL);
+        String firstName = object.getString(USER_FNAME);
+        String lastName = object.getString(USER_LNAME);
+        String gender = object.getString(USER_GENDER);
+        Integer maxCalories = object.getInt(USER_MAXCAL);
+        return new User(id,username,email,firstName,lastName,maxCalories,gender);
+    }
 }

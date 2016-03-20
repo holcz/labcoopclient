@@ -5,6 +5,6 @@ import com.labcoop.hw.meals.models.User;
 /**
  * Created by holcz on 11/03/16.
  */
-public interface UserDataCallback {
+public interface UserCallback {
     void onUserDataAvailable(User user);
 }

@@ -92,7 +92,9 @@ public class Profile {
             new RESTTask(new RESTTaskCallback() {
                 @Override
                 public void onDataReceived(String result) {
-                    if (isAuthorized(result)){
+                    if (result == null){
+                        callback.authenticated(false,"Could not communicate");
+                    }else  if (isAuthorized(result)){
                         //Save the authentication
                         HttpAuthenticator.this.username = username;
                         HttpAuthenticator.this.password = password;
@@ -102,7 +104,7 @@ public class Profile {
                         callback.authenticated(false,"Could not authenticate");
                     }
                 }
-            }).execute("GET",devURL+"/user");
+            }).execute("GET", devURL + "/user");
         }
 
         @Override
@@ -110,11 +112,13 @@ public class Profile {
             new RESTTask(new RESTTaskCallback() {
                 @Override
                 public void onDataReceived(String result) {
-                    if (isAuthorized(result)){
+                    if (result == null){
+                        callback.authenticated(false,"Could not communicate");
+                    }else if (isRegisterSuccess(result)){
                         //Save the authentication
                         HttpAuthenticator.this.username = username;
                         HttpAuthenticator.this.password = password;
-                        setAuthenticator(username,password);
+                        setAuthenticator(username, password);
                         callback.authenticated(true,null);
                     }else{
                         callback.authenticated(false,"Could not register");
@@ -128,7 +132,7 @@ public class Profile {
             this.username = null;
             this.password = null;
             Profile.this.removeCredentials();
-            callback.authenticated(true,"");
+            callback.authenticated(true, "");
         }
 
         private void setAuthenticator(final String username, final char[] password) {
@@ -141,19 +145,35 @@ public class Profile {
         }
 
         private void saveCredentials(){
-            Profile.this.saveCredentials(username,password);
+            Profile.this.saveCredentials(username, password);
         }
 
         private boolean isAuthorized(String json){
             if (json == null) return false;
-            return  !json.equalsIgnoreCase("Unauthorized");
-            //TODO: parse JSON!?
+            return !json.equalsIgnoreCase("Unauthorized");
+        }
+
+        private boolean isRegisterSuccess(String json){
+            if (json == null) return false;
+            try {
+                JSONTokener tokener = new JSONTokener(json);
+                JSONObject object = (JSONObject) tokener.nextValue();
+
+                String message = object.getString("message");
+                if (message != null && message.toLowerCase().contains("success")) return true;
+
+                return false; //TODO: quick and dirty, should check code and errmsg
+            }catch (JSONException e){
+                Log.e("MealController",e.getMessage(),e);
+                return false;
+            }
         }
 
         protected String generateURLEncodedQuery(String username, char[] password){
             return new Uri.Builder()
                     .appendQueryParameter("username", username)
                     .appendQueryParameter("password", String.valueOf(password))
+                    .appendQueryParameter("email", "email")
                     .build()
                     .getEncodedQuery();
         }

@@ -3,6 +3,7 @@ package com.labcoop.hw.meals.controllers;
 import android.net.Uri;
 import android.util.Log;
 
+import com.labcoop.hw.meals.controllers.authenticate.Profile;
 import com.labcoop.hw.meals.models.Meal;
 
 import org.json.JSONArray;
@@ -24,7 +25,7 @@ import java.util.Set;
  */
 public class MealController { //TODO: create an interface
 
-    private static final String restAPIUrl = ConnectionHelper.devURL+ "/meals";
+    private static final String restAPIUrl = Profile.HttpAuthenticator.devURL+ "/meals";
 
     //TODO: implement persistent storage in the device
     Set<Meal> meals;

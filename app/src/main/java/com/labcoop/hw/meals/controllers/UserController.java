@@ -1,7 +1,11 @@
 package com.labcoop.hw.meals.controllers;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.labcoop.hw.meals.controllers.authenticate.Profile;
 import com.labcoop.hw.meals.models.User;
 
 import org.json.JSONException;
@@ -16,12 +20,24 @@ import java.net.PasswordAuthentication;
  */
 public class UserController { //TODO: Find a much better name! Should be refactor and use persistent data storage on device
 
-    private static final String restAPIUrl = ConnectionHelper.devURL + "/user";
+    private static final String SHARED_PREFERENCIES = "Mealify";
+
+    private static final String USER_ID = "_id";
+//    private static final String USER_USERNAME = "username";
+//    private static final String USER_PASSWORD = "password";
+    private static final String USER_EMAIL = "email";
+    private static final String USER_FNAME = "firstname";
+    private static final String USER_LNAME = "lastname";
+    private static final String USER_GENDER = "gender";
+    private static final String USER_MAXCAL = "maxCalories";
+
+    private static final String restAPIUrl = Profile.HttpAuthenticator.devURL + "/user";
 
     private User mUser; //TODO: definitely should use presistent data storage (ContentProvider)
 
     //TODO: maybe not the best approach of using singleton, even DCL can be broken in Java
     private static UserController instance;
+
     public static UserController getInstance(){
         if (instance == null){
             synchronized (UserController.class){
@@ -31,16 +47,6 @@ public class UserController { //TODO: Find a much better name! Should be refacto
             }
         }
         return instance;
-    }
-
-    //TODO: refactor. Implement the profiling separately
-    private UserController(){
-        Authenticator.setDefault(new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("holcz", "holcz".toCharArray());
-            }
-        });
     }
 
     public void getUser(final UserDataCallback callback){

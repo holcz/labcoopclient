@@ -26,6 +26,7 @@ import java.util.Collection;
 public abstract class MealListFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     protected static final String ARG_SECTION_NUMBER = "section_number";
+    private static final int UPDATE_MEAL_REQUEST_ID = 2;
 
     protected MealListAdapter mealListAdapter = null;
 
@@ -81,15 +82,15 @@ public abstract class MealListFragment extends ListFragment implements AdapterVi
         intent.putExtra(UpdateMealActivity.MEAL_INTENT_KEY_TEXT,meal.getText());
         intent.putExtra(UpdateMealActivity.MEAL_INTENT_KEY_CALORIES,meal.getCalories());
         intent.putExtra(UpdateMealActivity.MEAL_INTENT_KEY_DATE, meal.getDateInMilis());
-        startActivityForResult(intent, UpdateMealActivity.UPDATE_MEAL_REQUEST_ID);
+        startActivityForResult(intent, UPDATE_MEAL_REQUEST_ID);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == UpdateMealActivity.UPDATE_MEAL_REQUEST_ID){
+        if (requestCode == UPDATE_MEAL_REQUEST_ID){
             if (resultCode == Activity.RESULT_OK){
-                Snackbar.make(this.getListView(), "Meal updated.", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(this.getView(), "Meal updated.", Snackbar.LENGTH_SHORT).show();
                 updateMeals();
             }
         }

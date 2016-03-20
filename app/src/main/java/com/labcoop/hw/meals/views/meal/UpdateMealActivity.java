@@ -21,7 +21,6 @@ import java.util.Date;
 
 public class UpdateMealActivity extends AppCompatActivity {
 
-    public static final int UPDATE_MEAL_REQUEST_ID = 1;
     public static final String MEAL_INTENT_KEY_ID = "mealID";
     public static final String MEAL_INTENT_KEY_TEXT = "mealText";
     public static final String MEAL_INTENT_KEY_CALORIES = "mealCalories";
@@ -70,15 +69,13 @@ public class UpdateMealActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Meal meal = generateMeal();
                 if (meal == null){
+                    //Should not be here
                     Log.d("UpdateMealActivity", "Meal creation failed");
                     setResult(RESULT_CANCELED);
                     finish();
                 }else{
                     save(meal);
-                    setResult(RESULT_OK);
-                    finish();
                 }
-
             }
         });
 
@@ -87,11 +84,12 @@ public class UpdateMealActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (mealId != null){
                     deleteMeal(mealId);
-                    setResult(RESULT_OK);
                 }else{
+                    //Should not be here
+                    Log.d("UpdateMealActivity", "Meal generate failed!");
                     setResult(RESULT_CANCELED);
+                    finish();
                 }
-                finish();
             }
         });
     }
@@ -118,8 +116,8 @@ public class UpdateMealActivity extends AppCompatActivity {
         MealController.getInstance().save(meal, new MealCallback() {
             @Override
             public void onMealAvaiable(Collection<Meal> meals) {
-                Snackbar.make(saveButton,
-                        mealId==null?"Meal created.":"Meal updated.", Snackbar.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
@@ -128,7 +126,8 @@ public class UpdateMealActivity extends AppCompatActivity {
         MealController.getInstance().delete(mealId, new MealCallback() {
             @Override
             public void onMealAvaiable(Collection<Meal> meals) {
-
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }

@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 
 /**
@@ -111,7 +112,7 @@ public class RESTTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        callback.onDataReceived(s);
+        callback.onDataReceived(s); //TODO: implement error handling
         super.onPostExecute(s);
     }
 

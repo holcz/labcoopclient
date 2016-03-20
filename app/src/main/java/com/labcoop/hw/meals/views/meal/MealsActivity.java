@@ -123,7 +123,7 @@ public class MealsActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {

@@ -10,9 +10,12 @@ import android.widget.TextView;
 import com.labcoop.hw.meals.R;
 import com.labcoop.hw.meals.models.Meal;
 import com.labcoop.hw.meals.views.MealDateFormatHelper;
-import com.labcoop.hw.meals.views.adapters.ListAdapterFilter;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by holcz on 14/03/16.
@@ -21,6 +24,14 @@ public class MealListAdapter extends ArrayAdapter<Meal> {
     private final Context context;
     private final int layoutResourceId;
     private ListAdapterFilter filter;
+
+    //TODO: JDK 1.8 and lambda
+    private static final Comparator<Meal> mealComparator = new Comparator<Meal>() {
+        @Override
+        public int compare(Meal lhs, Meal rhs) {
+            return lhs.getDate().compareTo(rhs.getDate());
+        }
+    };
 
     public MealListAdapter(Context context, int layoutResourceId) {
         super(context, layoutResourceId);
@@ -65,8 +76,10 @@ public class MealListAdapter extends ArrayAdapter<Meal> {
     public void update(Collection<Meal> meals){
         if (meals == null) {return;}
         this.clear();
+        List<Meal> sortedMeals = new ArrayList<>(meals);
+        Collections.sort(sortedMeals, mealComparator);
         for (Meal meal:
-             meals) {
+                sortedMeals) {
             this.add(meal);
         }
     }

@@ -14,21 +14,11 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60f3cb2d-c4a1-4541-8eb9-be9d49c985bd" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/RestTaskCallback.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/RESTTaskCallback.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealCallback.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealCallback.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealController.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/authenticate/Profile.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/authenticate/Profile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/RESTTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/RESTTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/settings/SettingsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/settings/SettingsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/UpdateMealActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/UpdateMealActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/UserCallback.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/UserCallback.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/UserController.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/UserController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LabcoopMeals.iws" />
@@ -74,7 +64,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
+              <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -141,12 +131,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MealController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MealController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.88235295">
+            <state vertical-scroll-proportion="0.0">
               <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MealListAdapter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.4054054">
+              <caret line="78" column="55" selection-start-line="78" selection-start-column="55" selection-end-line="78" selection-end-column="55" />
+              <folding>
+                <element signature="e#812#978#0" expanded="true" />
+                <element signature="e#977#978#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1773,7 +1776,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/ListAdapterFilter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/ConnectionHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/UpdateMealActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/MealListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/TodayListFragment.java" />
@@ -1811,6 +1813,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/settings/SettingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealController.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java" />
       </list>
     </option>
   </component>
@@ -2289,44 +2292,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="meal" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LabcoopMeals" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="labcoopclient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="meals" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dialogs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3051,14 +3016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/models/Meal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.618442">
-          <caret line="70" column="21" selection-start-line="70" selection-start-column="21" selection-end-line="70" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/ListAdapterFilterFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.7885532">
@@ -3066,14 +3023,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19077902">
-          <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3467,6 +3416,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/models/Meal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.38014528">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/TodayListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3481,16 +3446,19 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="39" selection-start-line="52" selection-start-column="39" selection-end-line="52" selection-end-column="39" />
+          <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealController.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.88235295">
-          <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
-          <folding />
+        <state vertical-scroll-proportion="0.4054054">
+          <caret line="78" column="55" selection-start-line="78" selection-start-column="55" selection-end-line="78" selection-end-column="55" />
+          <folding>
+            <element signature="e#812#978#0" expanded="true" />
+            <element signature="e#977#978#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -5,6 +5,7 @@
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -30,4 +31,9 @@
     <string name="time">Time:</string>
     <string name="from">From:</string>
     <string name="to">To:</string>
+    <string name="settings_fname">First Name</string>
+    <string name="settings_lname">Last Name</string>
+    <string name="settings_gender">Gender</string>
+    <string name="settings_calories">Maximum Calories per day</string>
+    <string name="settings_activity_tile">Settings</string>
 </resources>

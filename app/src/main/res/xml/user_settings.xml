@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="first_name"
+        android:title="@string/settings_fname"
+        android:summary="The first name of the user."
+        android:dialogTitle="First name" />
+    <EditTextPreference
+        android:key="last_name"
+        android:title="@string/settings_lname"
+        android:summary="This last name of the user"
+        android:dialogTitle="Last name" />
+    <EditTextPreference
+        android:key="maxCalories"
+        android:title="@string/settings_calories"
+        android:inputType="number"
+        android:summary="The number of calories per day."
+        android:dialogTitle="Max calories" />
 
 </PreferenceScreen>

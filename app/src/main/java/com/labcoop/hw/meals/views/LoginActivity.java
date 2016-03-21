@@ -53,11 +53,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button signInButton = (Button) findViewById(R.id.sign_in_button);
+        signInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        Button registerButton = (Button) findViewById(R.id.register_button);
+        registerButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptRegister();
             }
         });
 
@@ -73,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isUserRegisteredAndLogedIn(){
         Profile.initialize(this);
-        return Profile.getInstance().getAuthenticator().isRegistered();
+        return Profile.getInstance().isRegistered();
     }
 
     protected void startMealsActivity(){
@@ -89,6 +97,50 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void attemptLogin() {
 
+        if (validateTExtFileds()){
+            String username = mUsernameView.getText().toString();
+            String password = mPasswordView.getText().toString();
+
+            showProgress(true);
+            Profile.getInstance().getAuthenticator().login(username, password.toCharArray(), new AuthenticateCallback() {
+                @Override
+                public void authenticated(boolean success, String err) {
+                    showProgress(false);
+                    if (success){
+                        startMealsActivity();
+                    }else{
+                        mPasswordView.setText("");
+                        mPasswordView.requestFocus();
+                        Toast.makeText(LoginActivity.this, err, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private void attemptRegister(){
+        if (validateTExtFileds()){
+            String username = mUsernameView.getText().toString();
+            String password = mPasswordView.getText().toString();
+
+            showProgress(true);
+            Profile.getInstance().getAuthenticator().register(username, password.toCharArray(), new AuthenticateCallback() {
+                @Override
+                public void authenticated(boolean success, String err) {
+                    showProgress(false);
+                    if (success) {
+                        startMealsActivity();
+                    } else {
+                        mPasswordView.setText("");
+                        mPasswordView.requestFocus();
+                        Toast.makeText(LoginActivity.this, err, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private boolean validateTExtFileds(){
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
@@ -114,24 +166,11 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        if (cancel) {
+        if (cancel){
             focusView.requestFocus();
-        } else {
-            showProgress(true);
-            Profile.getInstance().getAuthenticator().login(username, password.toCharArray(), new AuthenticateCallback() {
-                @Override
-                public void authenticated(boolean success, String err) {
-                    showProgress(false);
-                    if (success){
-                        startMealsActivity();
-                    }else{
-                        mPasswordView.setText("");
-                        mPasswordView.requestFocus();
-                        Toast.makeText(LoginActivity.this, err, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
         }
+
+        return !cancel;
     }
 
     private boolean isPasswordValid(String password) {

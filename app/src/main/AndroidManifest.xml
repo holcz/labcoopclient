@@ -28,6 +28,11 @@
             android:label="@string/title_activity_update"
             android:parentActivityName=".views.meal.MealsActivity">
         </activity>
+        <activity
+            android:name=".views.settings.SettingsActivity"
+            android:label="@string/settings_activity_tile"
+            android:parentActivityName=".views.meal.MealsActivity">
+        </activity>
     </application>
 
 </manifest>

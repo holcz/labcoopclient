@@ -1,5 +1,6 @@
 package com.labcoop.hw.meals.controllers;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.labcoop.hw.meals.controllers.authenticate.Profile;
@@ -24,7 +25,7 @@ public class UserController {
 
     private static final String restAPIUrl = Profile.HttpAuthenticator.devURL + "/user";
 
-    private User mUser;
+    private User mUser = null;
     //TODO: definitely should use presistent data storage (ContentProvider)
     //TODO: Shared Preferences should be enough
 
@@ -63,9 +64,68 @@ public class UserController {
         }).execute(restAPIUrl);
     }
 
+    public void save(User user, final UserCallback callback){
+        new RESTTask(new RESTTaskCallback() {
+            @Override
+            public void onDataReceived(String result) {
+                try {
+                    if (result != null){
+                        mUser = parseFromJSON(result);
+                        callback.onUserDataAvailable(mUser);
+                    }
+                }catch (JSONException e){
+                    Log.e("UserHandler",e.getMessage(),e);
+                    callback.onUserDataAvailable(null);
+                }
+
+            }
+        }).execute("PUT",restAPIUrl,generateURLEncodedQuery(user));
+    }
+
+    public void save(final String username,final char[] password, final UserCallback callback){
+        new RESTTask(new RESTTaskCallback() {
+            @Override
+            public void onDataReceived(String result) {
+                if (result != null){
+                    boolean success = parseJSONMessage(result);
+                    callback.onUserDataAvailable(mUser);
+                }
+
+            }
+        }).execute("POST",restAPIUrl,generateURLEncodedQuery(username, password));
+    }
+
+    protected String generateURLEncodedQuery(User user){
+        return new Uri.Builder()
+                .appendQueryParameter("calories", user.getMaxCalories().toString())
+                .build()
+                .getEncodedQuery();
+    }
+
+    protected String generateURLEncodedQuery(String username, char[] password){
+        return new Uri.Builder()
+                .appendQueryParameter("username", username)
+                .appendQueryParameter("password", new String(password))
+                .build()
+                .getEncodedQuery();
+    }
+
     public synchronized void refresh(UserCallback callback){
         mUser = null;
         find(callback);
+    }
+
+    protected boolean parseJSONMessage(String json){
+        try {
+            JSONTokener tokener = new JSONTokener(json);
+            JSONObject object = (JSONObject) tokener.nextValue();
+            String message = object.getString("message");
+            return message != null && message.toLowerCase().contains("success");
+        }catch (JSONException e){
+            //the response can be in the object or in the data object
+            Log.e("UserController",e.getMessage(),e);
+            return false;
+        }
     }
 
     protected User parseFromJSON(String json) throws JSONException {
@@ -77,6 +137,6 @@ public class UserController {
         String lastName = object.getString(USER_LNAME);
         String gender = object.getString(USER_GENDER);
         Integer maxCalories = object.getInt(USER_MAXCAL);
-        return new User(id,username,email,firstName,lastName,maxCalories,gender);
+        return new User(username,email,firstName,lastName,maxCalories,gender);
     }
 }

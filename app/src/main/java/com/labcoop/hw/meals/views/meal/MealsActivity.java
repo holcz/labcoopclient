@@ -2,6 +2,8 @@ package com.labcoop.hw.meals.views.meal;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -25,12 +27,14 @@ import com.labcoop.hw.meals.controllers.authenticate.AuthenticateCallback;
 import com.labcoop.hw.meals.controllers.authenticate.Profile;
 import com.labcoop.hw.meals.models.Meal;
 import com.labcoop.hw.meals.views.LoginActivity;
+import com.labcoop.hw.meals.views.settings.SettingsActivity;
 
 import java.util.Collection;
 
 public class MealsActivity extends AppCompatActivity {
 
     public static final int CREATE_MEAL_REQUEST_ID = 1;
+    public static final int SETTINGS_REQUEST_ID = 2;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TodayListFragment todayListFragment;
@@ -59,18 +63,20 @@ public class MealsActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
                 MealListFragment selectedFragment = getFragment(position);
-                if (selectedFragment != null){
+                if (selectedFragment != null) {
                     selectedFragment.updateMeals();
                 }
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -102,6 +108,8 @@ public class MealsActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivityForResult(intent,SETTINGS_REQUEST_ID);
                 return true;
             case R.id.action_logout:
                 logOut();
@@ -138,11 +146,16 @@ public class MealsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CREATE_MEAL_REQUEST_ID){
-            if (resultCode == Activity.RESULT_OK){
-                updateCurrentMealFragment();
-                Snackbar.make(mViewPager, "Meal created.", Snackbar.LENGTH_SHORT).show();
-            }
+        switch (requestCode){
+            case CREATE_MEAL_REQUEST_ID:
+                if (resultCode == Activity.RESULT_OK){
+                    updateCurrentMealFragment();
+                    Snackbar.make(mViewPager, "Meal created.", Snackbar.LENGTH_SHORT).show();
+                }
+                break;
+            case SETTINGS_REQUEST_ID:
+                todayListFragment.refreshMaxCalories(); //TODO: use preference changed listener instead
+                break;
         }
     }
 

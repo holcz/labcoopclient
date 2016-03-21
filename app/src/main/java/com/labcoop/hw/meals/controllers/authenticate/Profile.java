@@ -1,14 +1,14 @@
 package com.labcoop.hw.meals.controllers.authenticate;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.labcoop.hw.meals.controllers.RESTTask;
 import com.labcoop.hw.meals.controllers.RESTTaskCallback;
-import com.labcoop.hw.meals.models.Meal;
+import com.labcoop.hw.meals.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,26 +21,31 @@ import java.net.PasswordAuthentication;
  */
 public class Profile {
 
-    private static String SHARED_PREF_PROFILE = "Mealify_Profile";
-
-    private static String SHARED_PREF_KEY_USERNAME = "username";
-    private static String SHARED_PREF_KEY_PASSWORD = "passwd";
+    public static final String USER_ID = "_id";
+    public static final String USER_USERNAME = "username";
+    public static final String USER_PASSWORD = "password";
+    public static final String USER_EMAIL = "email";
+    public static final String USER_FNAME = "firstname";
+    public static final String USER_LNAME = "lastname";
+    public static final String USER_GENDER = "gender";
+    public static final String USER_MAXCAL = "maxCalories";
 
     private SharedPreferences settings;
-    private com.labcoop.hw.meals.controllers.authenticate.Authenticator authenticator;
+    private HttpAuthenticator authenticator;
 
     private static Profile instance;
 
-    public static void initialize(Activity activity) {
-        instance = new Profile(activity);
+    public static void initialize(Context context) {
+        instance = new Profile(context);
     }
 
-    private Profile(Activity activity) {
-        settings = activity.getSharedPreferences(SHARED_PREF_PROFILE, Context.MODE_PRIVATE);
-        if (settings.contains(SHARED_PREF_KEY_USERNAME)) {
-            String username = settings.getString(SHARED_PREF_KEY_USERNAME, null);
-            char[] password = settings.getString(SHARED_PREF_KEY_PASSWORD, "").toCharArray();
-            authenticator = new HttpAuthenticator(username,password);
+    private Profile(Context context) {
+        settings = PreferenceManager.getDefaultSharedPreferences(context);
+        if (settings.contains(USER_USERNAME)) {
+            String username = settings.getString(USER_USERNAME, null);
+            char[] password = settings.getString(USER_PASSWORD, "").toCharArray();
+            authenticator = new HttpAuthenticator();
+            authenticator.setAuthenticator(username,password);
         }else{
             authenticator = new HttpAuthenticator();
         }
@@ -50,14 +55,15 @@ public class Profile {
         return instance;
     }
 
-    public Authenticator getAuthenticator(){
-        return authenticator;
-    }
+    public Authenticator getAuthenticator(){ return authenticator; }
 
-    protected void saveCredentials(String username, char[] password){
+    public boolean isRegistered(){ return settings.contains(USER_USERNAME); }
+
+    protected void saveCredentials(User user){
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(SHARED_PREF_KEY_USERNAME, username);
-        editor.putString(SHARED_PREF_KEY_PASSWORD, String.valueOf(password));
+        editor.putString(USER_USERNAME, user.getUsername());
+        editor.putString(USER_PASSWORD, String.valueOf(user.getPassword()));
+        editor.putInt(USER_MAXCAL, user.getMaxCalories());
         editor.commit();
     }
 
@@ -69,22 +75,9 @@ public class Profile {
 
     public class HttpAuthenticator implements com.labcoop.hw.meals.controllers.authenticate.Authenticator{
 
-        public static final String devURL = "http://10.0.1.5:1221/api";
-
-        private String username = null;
-        private char[] password = null;
+        public static final String devURL = "http://192.168.3.5:1221/api";
 
         HttpAuthenticator(){}
-
-        HttpAuthenticator(String username, char[] password){
-            this.username = username;
-            this.password = password;
-            setAuthenticator(username,password);
-        }
-
-        public boolean isRegistered() {
-            return username != null;
-        }
 
         @Override
         public void login(final String username, final char[] password, final AuthenticateCallback callback) {
@@ -94,14 +87,18 @@ public class Profile {
                 public void onDataReceived(String result) {
                     if (result == null){
                         callback.authenticated(false,"Could not communicate");
-                    }else  if (isAuthorized(result)){
-                        //Save the authentication
-                        HttpAuthenticator.this.username = username;
-                        HttpAuthenticator.this.password = password;
-                        saveCredentials();
-                        callback.authenticated(true,null);
                     }else{
-                        callback.authenticated(false,"Could not authenticate");
+                        try {
+                            User user = parseLoginJSON(result);
+                            user.setPassword(password); // Set the plain password
+                            saveCredentials(user);
+                            callback.authenticated(true,null);
+                        } catch (AuthenticationFailedException e) {
+                            callback.authenticated(false,e.getMessage());
+                        } catch (Exception e){
+                            callback.authenticated(false,e.getMessage());
+                        }
+
                     }
                 }
             }).execute("GET", devURL + "/user");
@@ -116,8 +113,8 @@ public class Profile {
                         callback.authenticated(false,"Could not communicate");
                     }else if (isRegisterSuccess(result)){
                         //Save the authentication
-                        HttpAuthenticator.this.username = username;
-                        HttpAuthenticator.this.password = password;
+                        User user = new User(username,password); //TODO: modify the server to send back the user data
+                        saveCredentials(user);
                         setAuthenticator(username, password);
                         callback.authenticated(true,null);
                     }else{
@@ -129,13 +126,11 @@ public class Profile {
 
         @Override
         public void logout(AuthenticateCallback callback) {
-            this.username = null;
-            this.password = null;
             Profile.this.removeCredentials();
             callback.authenticated(true, "");
         }
 
-        private void setAuthenticator(final String username, final char[] password) {
+        protected void setAuthenticator(final String username, final char[] password) {
             java.net.Authenticator.setDefault(new java.net.Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -144,13 +139,8 @@ public class Profile {
             });
         }
 
-        private void saveCredentials(){
-            Profile.this.saveCredentials(username, password);
-        }
-
-        private boolean isAuthorized(String json){
-            if (json == null) return false;
-            return !json.equalsIgnoreCase("Unauthorized");
+        private void saveCredentials(User user){
+            Profile.this.saveCredentials(user);
         }
 
         private boolean isRegisterSuccess(String json){
@@ -171,11 +161,34 @@ public class Profile {
 
         protected String generateURLEncodedQuery(String username, char[] password){
             return new Uri.Builder()
-                    .appendQueryParameter("username", username)
-                    .appendQueryParameter("password", String.valueOf(password))
-                    .appendQueryParameter("email", "email")
+                    .appendQueryParameter(USER_USERNAME, username)
+                    .appendQueryParameter(USER_PASSWORD, String.valueOf(password))
                     .build()
                     .getEncodedQuery();
+        }
+
+        protected User parseLoginJSON(String json) throws AuthenticationFailedException{
+            if (json.equalsIgnoreCase("Unauthorized")) throw new AuthenticationFailedException();
+            JSONObject object = null;
+            try {
+                object = (JSONObject) new JSONTokener(json).nextValue();
+                String username = object.getString(USER_USERNAME);
+                String email = object.getString(USER_EMAIL);
+                String firstName = object.getString(USER_FNAME);
+                String lastName = object.getString(USER_LNAME);
+                String gender = object.getString(USER_GENDER);
+                Integer maxCalories = object.getInt(USER_MAXCAL);
+                return new User(username,email,firstName,lastName,maxCalories,gender);
+            } catch (JSONException e) {
+                Log.e("Profile",e.getMessage(),e);
+            }
+            return null;
+        }
+
+        class AuthenticationFailedException extends Exception{
+            AuthenticationFailedException(){
+                super("Authenctication failed");
+            }
         }
     }
 }

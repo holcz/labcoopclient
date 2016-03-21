@@ -1,13 +1,18 @@
 package com.labcoop.hw.meals.views.meal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.labcoop.hw.meals.R;
+import com.labcoop.hw.meals.controllers.authenticate.Profile;
 import com.labcoop.hw.meals.views.adapters.ListAdapterFilterFactory;
 
 /**
@@ -17,6 +22,7 @@ public class TodayListFragment extends MealListFragment {
 
     View sumCaloriesLayout = null;
     TextView sumCaloriesTextView  = null;
+    Integer maxCaloriesPerDay = 0;
 
     public TodayListFragment(){
         super(0);
@@ -40,16 +46,26 @@ public class TodayListFragment extends MealListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        refreshMaxCalories();
     }
 
     @Override
     void onMealListAdapterDataSetChanged() {
+        refreshMaxCaloriesView();
+    }
+
+    protected void refreshMaxCaloriesView(){
         int sumCalories = mealListAdapter.getSumOfCalories();
         sumCaloriesTextView.setText(String.valueOf(sumCalories));
-        if (sumCalories > 1500) {
+        if (sumCalories > maxCaloriesPerDay) {
             sumCaloriesLayout.setBackgroundColor(Color.RED);
         } else {
             sumCaloriesLayout.setBackgroundColor(Color.GREEN);
         }
+    }
+
+    public void refreshMaxCalories(){
+        SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        maxCaloriesPerDay = preferences.getInt(Profile.USER_MAXCAL,0);
     }
 }

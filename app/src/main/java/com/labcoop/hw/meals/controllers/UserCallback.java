@@ -7,5 +7,5 @@ import com.labcoop.hw.meals.models.User;
  */
 public interface UserCallback {
     //TODO: ERROR handling!
-    void onUserDataAvailable(User user);
+    void onUserDataAvailable(User user, String error);
 }

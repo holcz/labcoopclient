@@ -20,6 +20,8 @@ import java.net.URL;
  */
 public class RESTTask extends AsyncTask<String, Integer, String> {
 
+    private final static String ERROR_PREFIX = "error: ";
+
     protected RESTTaskCallback callback;
 
     public RESTTask(RESTTaskCallback callback) {
@@ -46,10 +48,19 @@ public class RESTTask extends AsyncTask<String, Integer, String> {
             }
         }catch (IOException e) {
             Log.e("restTask",e.getMessage(), e);
+            String err = ERROR_PREFIX;
+            //TODO: should get "Unauthorized" message. Debug it
+            if (e.getMessage().contains("Too many follow-up requests: 21")){
+                err += "Authentication failed";
+            }else{
+                err += e.getMessage();
+            }
+            return err;
         }catch (Exception e){
             Log.e("restTask",e.getMessage(), e);
+            return ERROR_PREFIX + e.getMessage();
         }
-        return null;
+        return "error: unknown";
     }
 
     protected String postOrPut(String httpMethod, String serverUrl, String data) throws IOException {
@@ -112,15 +123,20 @@ public class RESTTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        callback.onDataReceived(s); //TODO: implement error handling
+        if (s.startsWith(ERROR_PREFIX)){
+            callback.onDataReceived(null,s.substring(ERROR_PREFIX.length()));
+        }else{
+            callback.onDataReceived(s,null);
+        }
+
         super.onPostExecute(s);
     }
 
     protected HttpURLConnection connect(String serverUrl) throws IOException{
         URL url = new URL(serverUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(10000);
-        conn.setConnectTimeout(15000);
+        conn.setReadTimeout(4000);
+        conn.setConnectTimeout(5000);
         return conn;
     }
 

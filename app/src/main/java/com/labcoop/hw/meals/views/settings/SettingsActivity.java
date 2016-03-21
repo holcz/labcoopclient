@@ -69,10 +69,8 @@ class SettingsFragment extends PreferenceFragment implements Preference.OnPrefer
     private void saveUser(){
         UserController.getInstance().save(user, new UserCallback() {
             @Override
-            public void onUserDataAvailable(User user) {
-                if (user != null){
-                    //Nothing much to do
-                }
+            public void onUserDataAvailable(User user, String error) {
+                //Nothing much to do, see the TODO above
 
             }
         });

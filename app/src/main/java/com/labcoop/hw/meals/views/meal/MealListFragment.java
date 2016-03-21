@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.labcoop.hw.meals.R;
 import com.labcoop.hw.meals.controllers.MealCallback;
@@ -51,10 +52,15 @@ public abstract class MealListFragment extends ListFragment implements AdapterVi
         //Refresh the list adapter when the view is shown
         MealController.getInstance().find(new MealCallback() {
             @Override
-            public void onMealAvaiable(Collection<Meal> meals) {
-                if (meals != null && mealListAdapter != null) {
-                    mealListAdapter.update(meals);
+            public void onMealAvaiable(Collection<Meal> meals, String error) {
+                if (error == null){
+                    if (meals != null && mealListAdapter != null) {
+                        mealListAdapter.update(meals);
+                    }
+                }else{
+                    Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }

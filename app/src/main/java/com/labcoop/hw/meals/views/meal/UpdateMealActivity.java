@@ -115,8 +115,13 @@ public class UpdateMealActivity extends AppCompatActivity {
     private void save(Meal meal){
         MealController.getInstance().save(meal, new MealCallback() {
             @Override
-            public void onMealAvaiable(Collection<Meal> meals) {
-                setResult(RESULT_OK);
+            public void onMealAvaiable(Collection<Meal> meals, String error) {
+                if (error == null){
+                    setResult(RESULT_OK);
+                }else{
+                    setResult(RESULT_CANCELED);
+                    getIntent().putExtra("error",error);
+                }
                 finish();
             }
         });
@@ -125,8 +130,13 @@ public class UpdateMealActivity extends AppCompatActivity {
     private void deleteMeal(String mealId){
         MealController.getInstance().delete(mealId, new MealCallback() {
             @Override
-            public void onMealAvaiable(Collection<Meal> meals) {
-                setResult(RESULT_OK);
+            public void onMealAvaiable(Collection<Meal> meals, String error) {
+                if (error == null){
+                    setResult(RESULT_OK);
+                }else{
+                    setResult(RESULT_CANCELED);
+                    getIntent().putExtra("error",error);
+                }
                 finish();
             }
         });

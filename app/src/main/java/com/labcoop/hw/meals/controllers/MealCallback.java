@@ -9,5 +9,5 @@ import java.util.Collection;
  */
 public interface MealCallback {
     //TODO: ERROR handling!!!
-    public void onMealAvaiable(Collection<Meal> meals);
+    public void onMealAvaiable(Collection<Meal> meals, String error);
 }

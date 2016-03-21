@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * Created by holcz on 14/03/16.
  */
-public class MealController { //TODO: create an interface
+public class MealController {
 
     private static final String restAPIUrl = Profile.HttpAuthenticator.devURL+ "/meals";
 
@@ -51,14 +51,20 @@ public class MealController { //TODO: create an interface
 
     public void find(final MealCallback callback){
         if (!meals.isEmpty()){
-            callback.onMealAvaiable(meals);
+            callback.onMealAvaiable(meals, null);
         }else{
             new RESTTask(new RESTTaskCallback() {
                 @Override
-                public void onDataReceived(String result) {
-                    List<Meal> meals = parseJSON(result);
-                    updateListInMemory(meals);
-                    callback.onMealAvaiable(meals);
+                public void onDataReceived(String result, String error) {
+                    if (error == null){
+                        List<Meal> meals = parseJSON(result);
+                        updateListInMemory(meals);
+                        callback.onMealAvaiable(meals,null);
+                    }else{
+                        callback.onMealAvaiable(null,error);
+                    }
+
+
                 }
             }).execute("GET", restAPIUrl);
         }
@@ -67,15 +73,20 @@ public class MealController { //TODO: create an interface
     public void find(String id, final MealCallback callback){
         Meal meal = find(id);
         if (meal != null) {
-            callback.onMealAvaiable(Arrays.asList(meal));
+            callback.onMealAvaiable(Arrays.asList(meal), null);
         }else{
             String url = restAPIUrl + "/" + id;
             new RESTTask(new RESTTaskCallback() {
                 @Override
-                public void onDataReceived(String result) {
-                    List<Meal> meals = parseJSON(result);
-                    updateListInMemory(meals);
-                    callback.onMealAvaiable(meals);
+                public void onDataReceived(String result, String error) {
+                    if (error == null){
+                        List<Meal> meals = parseJSON(result);
+                        updateListInMemory(meals);
+                        callback.onMealAvaiable(meals, null);
+                    }else{
+                        callback.onMealAvaiable(null, error);
+                    }
+
                 }
             }).execute("GET", url);
         }
@@ -93,12 +104,19 @@ public class MealController { //TODO: create an interface
         String url = restAPIUrl + "/" + mealId;
         new RESTTask(new RESTTaskCallback() {
             @Override
-            public void onDataReceived(String result) {
-                boolean success = parseDeleteJSONMessage(result);
-                if (success){
-                    removeMealFromMemory(mealId);
-                    callback.onMealAvaiable(null);
+            public void onDataReceived(String result, String error) {
+                if (error == null){
+                    boolean success = parseDeleteJSONMessage(result);
+                    if (success){
+                        removeMealFromMemory(mealId);
+                        callback.onMealAvaiable(null, null);
+                    }else{
+                        callback.onMealAvaiable(null, "Delete failed: unknown");
+                    }
+                }else{
+                    callback.onMealAvaiable(null, error);
                 }
+
             }
         }).execute("DELETE", url);
     }
@@ -115,10 +133,15 @@ public class MealController { //TODO: create an interface
     protected void post(Meal meal, final MealCallback callback){
         new RESTTask(new RESTTaskCallback() {
             @Override
-            public void onDataReceived(String result) {
-                List<Meal> meals = parseJSON(result);
-                updateListInMemory(meals);
-                callback.onMealAvaiable(meals);
+            public void onDataReceived(String result, String error) {
+                if (error == null){
+                    List<Meal> meals = parseJSON(result);
+                    updateListInMemory(meals);
+                    callback.onMealAvaiable(meals, null);
+                }else{
+                    callback.onMealAvaiable(null, error);
+                }
+
             }
         }).execute("POST", restAPIUrl, generateURLEncodedQuery(meal));
     }
@@ -127,10 +150,15 @@ public class MealController { //TODO: create an interface
         String url = restAPIUrl + "/" + meal.getId();
         new RESTTask(new RESTTaskCallback() {
             @Override
-            public void onDataReceived(String result) {
-                List<Meal> meals = parseJSON(result);
-                updateListInMemory(meals);
-                callback.onMealAvaiable(meals);
+            public void onDataReceived(String result, String error) {
+                if (error == null){
+                    List<Meal> meals = parseJSON(result);
+                    updateListInMemory(meals);
+                    callback.onMealAvaiable(meals, null);
+                }else{
+                    callback.onMealAvaiable(null, error);
+                }
+
             }
         }).execute("PUT",url, generateURLEncodedQuery(meal));
     }

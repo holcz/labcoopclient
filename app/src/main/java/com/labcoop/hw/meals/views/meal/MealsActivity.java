@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.labcoop.hw.meals.R;
 import com.labcoop.hw.meals.controllers.MealCallback;
@@ -133,7 +134,7 @@ public class MealsActivity extends AppCompatActivity {
                 if (success) {
                     startLoginActivity();
                 } else {
-                    Log.d("MealsActivity", "Logout failed");
+                    Toast.makeText(getBaseContext(), err, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -142,8 +143,13 @@ public class MealsActivity extends AppCompatActivity {
     private void refreshMealList(){
         MealController.getInstance().refresh(new MealCallback() {
             @Override
-            public void onMealAvaiable(Collection<Meal> meals) {
-                updateCurrentMealFragment();
+            public void onMealAvaiable(Collection<Meal> meals, String error) {
+                if (error == null) {
+                    updateCurrentMealFragment();
+                } else {
+                    Toast.makeText(getBaseContext(), error, Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -156,6 +162,11 @@ public class MealsActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK){
                     updateCurrentMealFragment();
                     Snackbar.make(mViewPager, "Meal created.", Snackbar.LENGTH_SHORT).show();
+                }else{
+                    String error = data.getStringExtra("error");
+                    if (error != null){
+                        Toast.makeText(getBaseContext(),error,Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case SETTINGS_REQUEST_ID:

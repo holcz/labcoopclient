@@ -90,10 +90,8 @@ public class Profile {
             setAuthenticator(username,password);
             new RESTTask(new RESTTaskCallback() {
                 @Override
-                public void onDataReceived(String result) {
-                    if (result == null){
-                        callback.authenticated(false,"Could not communicate");
-                    }else{
+                public void onDataReceived(String result, String error) {
+                    if (error == null){
                         try {
                             User user = parseLoginJSON(result);
                             user.setPassword(password); // Set the plain password
@@ -104,7 +102,8 @@ public class Profile {
                         } catch (Exception e){
                             callback.authenticated(false,e.getMessage());
                         }
-
+                    }else{
+                        callback.authenticated(false,error);
                     }
                 }
             }).execute("GET", devURL + "/user");
@@ -114,17 +113,19 @@ public class Profile {
         public void register(final String username, final char[] password, final AuthenticateCallback callback) {
             new RESTTask(new RESTTaskCallback() {
                 @Override
-                public void onDataReceived(String result) {
-                    if (result == null){
-                        callback.authenticated(false,"Could not communicate");
-                    }else if (isRegisterSuccess(result)){
-                        //Save the authentication
-                        User user = new User(username,password); //TODO: modify the server to send back the user data
-                        saveCredentials(user);
-                        setAuthenticator(username, password);
-                        callback.authenticated(true,null);
+                public void onDataReceived(String result, String error) {
+                    if (error == null){
+                        if (isRegisterSuccess(result)){
+                            //Save the authentication
+                            User user = new User(username,password); //TODO: modify the server to send back the user data
+                            saveCredentials(user);
+                            setAuthenticator(username, password);
+                            callback.authenticated(true,null);
+                        }else{
+                            callback.authenticated(false,"Could not register");
+                        }
                     }else{
-                        callback.authenticated(false,"Could not register");
+                        callback.authenticated(false,error);
                     }
                 }
             }).execute("POST", devURL + "/user", generateURLEncodedQuery(username, password));

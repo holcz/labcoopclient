@@ -15,19 +15,7 @@ import org.json.JSONTokener;
  */
 public class UserController {
 
-//    private static final String USER_ID = "_id";
-//    private static final String USER_USERNAME = "username";
-//    private static final String USER_EMAIL = "email";
-//    private static final String USER_FNAME = "firstname";
-//    private static final String USER_LNAME = "lastname";
-//    private static final String USER_GENDER = "gender";
-//    private static final String USER_MAXCAL = "maxCalories";
-
     private static final String restAPIUrl = Profile.HttpAuthenticator.devURL + "/user";
-
-    private User mUser = null;
-    //TODO: definitely should use presistent data storage (ContentProvider)
-    //TODO: Shared Preferences should be enough
 
     //TODO: maybe not the best approach of using singleton, even DCL can be broken in Java
     private static UserController instance;
@@ -44,20 +32,19 @@ public class UserController {
     }
 
     public void find(final UserCallback callback){
-        if (mUser != null){
-            callback.onUserDataAvailable(mUser); //TODO: use persistency here
-        }
         new RESTTask(new RESTTaskCallback() {
             @Override
-            public void onDataReceived(String result) {
+            public void onDataReceived(String result, String error) {
                 try {
-                    if (result != null){
-                        mUser = parseFromJSON(result);
-                        callback.onUserDataAvailable(mUser);
+                    if (error == null){
+                        User mUser = parseFromJSON(result);
+                        callback.onUserDataAvailable(mUser, null);
+                    }else{
+                        callback.onUserDataAvailable(null, error);
                     }
                 }catch (JSONException e){
                     Log.e("UserHandler",e.getMessage(),e);
-                    callback.onUserDataAvailable(null);
+                    callback.onUserDataAvailable(null,e.getMessage());
                 }
 
             }
@@ -67,15 +54,18 @@ public class UserController {
     public void save(User user, final UserCallback callback){
         new RESTTask(new RESTTaskCallback() {
             @Override
-            public void onDataReceived(String result) {
+            public void onDataReceived(String result, String error) {
                 try {
-                    if (result != null){
-                        mUser = parseFromJSON(result);
-                        callback.onUserDataAvailable(mUser);
+                    if (error == null){
+                        User mUser = parseFromJSON(result);
+                        callback.onUserDataAvailable(mUser, null);
+                    }else{
+                        callback.onUserDataAvailable(null, error);
                     }
+
                 }catch (JSONException e){
                     Log.e("UserHandler",e.getMessage(),e);
-                    callback.onUserDataAvailable(null);
+                    callback.onUserDataAvailable(null,"Error: " + e.getMessage());
                 }
 
             }
@@ -85,12 +75,16 @@ public class UserController {
     public void save(final String username,final char[] password, final UserCallback callback){
         new RESTTask(new RESTTaskCallback() {
             @Override
-            public void onDataReceived(String result) {
-                if (result != null){
-                    boolean success = parseJSONMessage(result);
-                    callback.onUserDataAvailable(mUser);
+            public void onDataReceived(String result, String error) {
+                if (error == null){
+                    if (parseJSONMessage(result)){
+                        callback.onUserDataAvailable(null,null);
+                    }else{
+                        callback.onUserDataAvailable(null,"Error: unknown");
+                    }
+                }else{
+                    callback.onUserDataAvailable(null,error);
                 }
-
             }
         }).execute("POST",restAPIUrl,generateURLEncodedQuery(username, password));
     }
@@ -111,11 +105,6 @@ public class UserController {
                 .appendQueryParameter("password", new String(password))
                 .build()
                 .getEncodedQuery();
-    }
-
-    public synchronized void refresh(UserCallback callback){
-        mUser = null;
-        find(callback);
     }
 
     protected boolean parseJSONMessage(String json){

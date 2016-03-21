@@ -65,7 +65,7 @@ public class TodayListFragment extends MealListFragment {
     }
 
     public void refreshMaxCalories(){
-        SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         maxCaloriesPerDay = preferences.getInt(Profile.USER_MAXCAL,0);
     }
 }

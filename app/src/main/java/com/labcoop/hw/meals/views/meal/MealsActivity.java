@@ -155,6 +155,7 @@ public class MealsActivity extends AppCompatActivity {
                 break;
             case SETTINGS_REQUEST_ID:
                 todayListFragment.refreshMaxCalories(); //TODO: use preference changed listener instead
+                updateCurrentMealFragment();
                 break;
         }
     }

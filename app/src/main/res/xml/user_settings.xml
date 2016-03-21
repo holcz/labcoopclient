@@ -10,10 +10,12 @@
         android:title="@string/settings_lname"
         android:summary="This last name of the user"
         android:dialogTitle="Last name" />
-    <EditTextPreference
+    <com.labcoop.hw.meals.views.settings.IntegerEditTextPreference
         android:key="maxCalories"
         android:title="@string/settings_calories"
         android:inputType="number"
+        android:numeric="integer"
+        android:defaultValue="0"
         android:summary="The number of calories per day."
         android:dialogTitle="Max calories" />
 

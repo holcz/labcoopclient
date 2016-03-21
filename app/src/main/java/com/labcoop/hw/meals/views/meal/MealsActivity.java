@@ -96,6 +96,11 @@ public class MealsActivity extends AppCompatActivity {
         customFilterFragment = new CustomFilterFragment();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshMealList();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.labcoop.hw.meals.R;
 import com.labcoop.hw.meals.controllers.RESTTask;
 import com.labcoop.hw.meals.controllers.RESTTaskCallback;
 import com.labcoop.hw.meals.models.User;
@@ -21,14 +22,13 @@ import java.net.PasswordAuthentication;
  */
 public class Profile {
 
-    public static final String USER_ID = "_id";
-    public static final String USER_USERNAME = "username";
-    public static final String USER_PASSWORD = "password";
-    public static final String USER_EMAIL = "email";
-    public static final String USER_FNAME = "firstname";
-    public static final String USER_LNAME = "lastname";
-    public static final String USER_GENDER = "gender";
-    public static final String USER_MAXCAL = "maxCalories";
+    public final String USER_USERNAME;
+    public final String USER_PASSWORD;
+    public final String USER_EMAIL;
+    public final String USER_FNAME;
+    public final String USER_LNAME;
+    public final String USER_GENDER;
+    public final String USER_MAXCAL;
 
     private SharedPreferences settings;
     private HttpAuthenticator authenticator;
@@ -40,14 +40,20 @@ public class Profile {
     }
 
     private Profile(Context context) {
+        USER_USERNAME = context.getResources().getString(R.string.user_username);
+        USER_PASSWORD = context.getResources().getString(R.string.user_password);
+        USER_EMAIL = context.getResources().getString(R.string.user_email);
+        USER_FNAME = context.getResources().getString(R.string.user_firstname);
+        USER_LNAME = context.getResources().getString(R.string.user_lastname);
+        USER_GENDER = context.getResources().getString(R.string.user_gender);
+        USER_MAXCAL = context.getResources().getString(R.string.user_maxCalories);
+
         settings = PreferenceManager.getDefaultSharedPreferences(context);
-        if (settings.contains(USER_USERNAME)) {
+        authenticator = new HttpAuthenticator();
+        if (isRegistered()) {
             String username = settings.getString(USER_USERNAME, null);
             char[] password = settings.getString(USER_PASSWORD, "").toCharArray();
-            authenticator = new HttpAuthenticator();
             authenticator.setAuthenticator(username,password);
-        }else{
-            authenticator = new HttpAuthenticator();
         }
     }
 

@@ -15,13 +15,13 @@ import org.json.JSONTokener;
  */
 public class UserController {
 
-    private static final String USER_ID = "_id";
-    private static final String USER_USERNAME = "username";
-    private static final String USER_EMAIL = "email";
-    private static final String USER_FNAME = "firstname";
-    private static final String USER_LNAME = "lastname";
-    private static final String USER_GENDER = "gender";
-    private static final String USER_MAXCAL = "maxCalories";
+//    private static final String USER_ID = "_id";
+//    private static final String USER_USERNAME = "username";
+//    private static final String USER_EMAIL = "email";
+//    private static final String USER_FNAME = "firstname";
+//    private static final String USER_LNAME = "lastname";
+//    private static final String USER_GENDER = "gender";
+//    private static final String USER_MAXCAL = "maxCalories";
 
     private static final String restAPIUrl = Profile.HttpAuthenticator.devURL + "/user";
 
@@ -96,10 +96,13 @@ public class UserController {
     }
 
     protected String generateURLEncodedQuery(User user){
-        return new Uri.Builder()
-                .appendQueryParameter("calories", user.getMaxCalories().toString())
-                .build()
-                .getEncodedQuery();
+        Uri.Builder builder = new Uri.Builder();
+        if (user.getFirstName() != null) builder.appendQueryParameter(Profile.getInstance().USER_FNAME,user.getFirstName());
+        if (user.getLastName() != null) builder.appendQueryParameter(Profile.getInstance().USER_LNAME,user.getLastName());
+        if (user.getEmail() != null) builder.appendQueryParameter(Profile.getInstance().USER_EMAIL,user.getEmail());
+        if (user.getMaxCalories() != null) builder.appendQueryParameter(Profile.getInstance().USER_MAXCAL,user.getMaxCalories().toString());
+        if (user.getGender() != null) builder.appendQueryParameter(Profile.getInstance().USER_GENDER,user.getGender().toString());
+        return builder.build().getEncodedQuery();
     }
 
     protected String generateURLEncodedQuery(String username, char[] password){
@@ -130,13 +133,12 @@ public class UserController {
 
     protected User parseFromJSON(String json) throws JSONException {
         JSONObject object = (JSONObject) new JSONTokener(json).nextValue();
-        String id = object.getString(USER_ID);
-        String username = object.getString(USER_USERNAME);
-        String email = object.getString(USER_EMAIL);
-        String firstName = object.getString(USER_FNAME);
-        String lastName = object.getString(USER_LNAME);
-        String gender = object.getString(USER_GENDER);
-        Integer maxCalories = object.getInt(USER_MAXCAL);
+        String username = object.getString(Profile.getInstance().USER_USERNAME);
+        String email = object.getString(Profile.getInstance().USER_EMAIL);
+        String firstName = object.getString(Profile.getInstance().USER_FNAME);
+        String lastName = object.getString(Profile.getInstance().USER_LNAME);
+        String gender = object.getString(Profile.getInstance().USER_GENDER);
+        Integer maxCalories = object.getInt(Profile.getInstance().USER_MAXCAL);
         return new User(username,email,firstName,lastName,maxCalories,gender);
     }
 }

@@ -36,7 +36,7 @@ public class User {
         this.maxCalories = maxCalories;
         try {
             this.gender = Gender.valueOf(gender);
-        }catch (IllegalArgumentException e){
+        }catch (IllegalArgumentException | NullPointerException e){
             this.gender = Gender.MALE;
         }
     }

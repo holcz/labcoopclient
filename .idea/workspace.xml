@@ -18,7 +18,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60f3cb2d-c4a1-4541-8eb9-be9d49c985bd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/UpdateMealActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/UpdateMealActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LabcoopMeals.iws" />
@@ -47,24 +48,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TodayListFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/TodayListFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="69" column="5" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
-              <folding>
-                <element signature="e#788#789#0" expanded="true" />
-                <element signature="e#812#813#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MealListFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+              <caret line="61" column="26" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -105,27 +93,40 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/authenticate/Profile.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <caret line="83" column="77" selection-start-line="83" selection-start-column="77" selection-end-line="83" selection-end-column="77" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3207#4092#0" expanded="true" />
-                <element signature="e#4091#4092#0" expanded="true" />
-                <element signature="e#4296#5151#0" expanded="true" />
-                <element signature="e#5150#5151#0" expanded="true" />
+                <element signature="e#3210#4095#0" expanded="true" />
+                <element signature="e#4094#4095#0" expanded="true" />
+                <element signature="e#4299#5154#0" expanded="true" />
+                <element signature="e#5153#5154#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MealsActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java">
+      <file leaf-file-name="UpdateMealActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/UpdateMealActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="137" column="17" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
+              <caret line="122" column="79" selection-start-line="122" selection-start-column="79" selection-end-line="122" selection-end-column="79" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MealsActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.0492846">
+              <caret line="91" column="51" selection-start-line="91" selection-start-column="51" selection-end-line="91" selection-end-column="51" />
               <folding>
-                <element signature="class#2498:3065" expanded="false" />
-                <element signature="e#5148#5511#0" expanded="true" />
-                <element signature="e#5510#5511#0" expanded="true" />
+                <element signature="e#2815#2816#0" expanded="true" />
+                <element signature="e#2875#2876#0" expanded="true" />
+                <element signature="e#4684#5029#0" expanded="true" />
+                <element signature="e#5028#5029#0" expanded="true" />
+                <element signature="e#6632#6633#0" expanded="true" />
+                <element signature="e#6695#6696#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -141,11 +142,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MealListAdapter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MealListAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4054054">
-              <caret line="78" column="55" selection-start-line="78" selection-start-column="55" selection-end-line="78" selection-end-column="55" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="78" column="133" selection-start-line="78" selection-start-column="133" selection-end-line="78" selection-end-column="133" />
               <folding>
                 <element signature="e#812#978#0" expanded="true" />
                 <element signature="e#977#978#0" expanded="true" />
@@ -1807,13 +1808,13 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealCallback.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/UserCallback.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/UserController.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/settings/SettingsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealController.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/authenticate/Profile.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/UpdateMealActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/settings/SettingsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/MealController.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java" />
       </list>
     </option>
   </component>
@@ -2922,7 +2923,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="57" />
+      <option name="time" value="59" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -3334,18 +3335,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3370429">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4372#4901#0" expanded="true" />
-            <element signature="e#4900#4901#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/models/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.7433414">
@@ -3361,45 +3350,6 @@
           <folding>
             <element signature="e#705#706#0" expanded="true" />
             <element signature="e#745#746#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/UpdateMealActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7094431">
-          <caret line="138" column="17" selection-start-line="138" selection-start-column="17" selection-end-line="138" selection-end-column="17" />
-          <folding>
-            <element signature="e#4315#4710#0" expanded="true" />
-            <element signature="e#4709#4710#0" expanded="true" />
-            <element signature="e#4816#5211#0" expanded="true" />
-            <element signature="e#5210#5211#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/authenticate/Profile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3207#4092#0" expanded="true" />
-            <element signature="e#4091#4092#0" expanded="true" />
-            <element signature="e#4296#5151#0" expanded="true" />
-            <element signature="e#5150#5151#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="137" column="17" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
-          <folding>
-            <element signature="class#2498:3065" expanded="false" />
-            <element signature="e#5148#5511#0" expanded="true" />
-            <element signature="e#5510#5511#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3432,10 +3382,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/TodayListFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="5" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
+          <caret line="78" column="133" selection-start-line="78" selection-start-column="133" selection-end-line="78" selection-end-column="133" />
+          <folding>
+            <element signature="e#812#978#0" expanded="true" />
+            <element signature="e#977#978#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44067797">
+          <caret line="113" column="64" selection-start-line="113" selection-start-column="64" selection-end-line="113" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/controllers/authenticate/Profile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="83" column="77" selection-start-line="83" selection-start-column="77" selection-end-line="83" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3210#4095#0" expanded="true" />
+            <element signature="e#4094#4095#0" expanded="true" />
+            <element signature="e#4299#5154#0" expanded="true" />
+            <element signature="e#5153#5154#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/UpdateMealActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="122" column="79" selection-start-line="122" selection-start-column="79" selection-end-line="122" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/TodayListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.16852146">
+          <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
           <folding>
             <element signature="e#788#789#0" expanded="true" />
             <element signature="e#812#813#0" expanded="true" />
@@ -3446,18 +3439,22 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+          <caret line="61" column="26" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/adapters/MealListAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/labcoop/hw/meals/views/meal/MealsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4054054">
-          <caret line="78" column="55" selection-start-line="78" selection-start-column="55" selection-end-line="78" selection-end-column="55" />
+        <state vertical-scroll-proportion="-1.0492846">
+          <caret line="91" column="51" selection-start-line="91" selection-start-column="51" selection-end-line="91" selection-end-column="51" />
           <folding>
-            <element signature="e#812#978#0" expanded="true" />
-            <element signature="e#977#978#0" expanded="true" />
+            <element signature="e#2815#2816#0" expanded="true" />
+            <element signature="e#2875#2876#0" expanded="true" />
+            <element signature="e#4684#5029#0" expanded="true" />
+            <element signature="e#5028#5029#0" expanded="true" />
+            <element signature="e#6632#6633#0" expanded="true" />
+            <element signature="e#6695#6696#0" expanded="true" />
           </folding>
         </state>
       </provider>

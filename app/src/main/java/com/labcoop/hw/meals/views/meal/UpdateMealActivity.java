@@ -120,7 +120,7 @@ public class UpdateMealActivity extends AppCompatActivity {
                     setResult(RESULT_OK);
                 }else{
                     setResult(RESULT_CANCELED);
-                    getIntent().putExtra("error",error);
+                    getIntent().putExtra(MealsActivity.ACTIVITY_EXTRA_ERROR_KEY,error);
                 }
                 finish();
             }
@@ -135,7 +135,7 @@ public class UpdateMealActivity extends AppCompatActivity {
                     setResult(RESULT_OK);
                 }else{
                     setResult(RESULT_CANCELED);
-                    getIntent().putExtra("error",error);
+                    getIntent().putExtra(MealsActivity.ACTIVITY_EXTRA_ERROR_KEY,error);
                 }
                 finish();
             }

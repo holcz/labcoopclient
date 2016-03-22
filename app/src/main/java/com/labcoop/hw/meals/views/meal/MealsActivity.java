@@ -36,6 +36,7 @@ public class MealsActivity extends AppCompatActivity {
 
     public static final int CREATE_MEAL_REQUEST_ID = 1;
     public static final int SETTINGS_REQUEST_ID = 2;
+    public static final String ACTIVITY_EXTRA_ERROR_KEY = "error";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private TodayListFragment todayListFragment;
@@ -69,10 +70,7 @@ public class MealsActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                MealListFragment selectedFragment = getFragment(position);
-                if (selectedFragment != null) {
-                    selectedFragment.updateMeals();
-                }
+                updateMealFragment(position);
             }
 
             @Override
@@ -91,6 +89,7 @@ public class MealsActivity extends AppCompatActivity {
                 startActivityForResult(intent, CREATE_MEAL_REQUEST_ID);
             }
         });
+        createButton.setVisibility(View.INVISIBLE);
 
         todayListFragment = new TodayListFragment();
         userDefaultFilterFragment = new UserDefaultFilterFragment();
@@ -145,8 +144,10 @@ public class MealsActivity extends AppCompatActivity {
             @Override
             public void onMealAvaiable(Collection<Meal> meals, String error) {
                 if (error == null) {
+                    createButton.setVisibility(View.VISIBLE);
                     updateCurrentMealFragment();
                 } else {
+                    createButton.setVisibility(View.INVISIBLE);
                     Toast.makeText(getBaseContext(), error, Toast.LENGTH_SHORT).show();
                 }
 
@@ -163,9 +164,8 @@ public class MealsActivity extends AppCompatActivity {
                     updateCurrentMealFragment();
                     Snackbar.make(mViewPager, "Meal created.", Snackbar.LENGTH_SHORT).show();
                 }else{
-                    String error = data.getStringExtra("error");
-                    if (error != null){
-                        Toast.makeText(getBaseContext(),error,Toast.LENGTH_SHORT).show();
+                    if (data != null && data.getStringExtra(ACTIVITY_EXTRA_ERROR_KEY) != null){
+                        Toast.makeText(getBaseContext(),data.getStringExtra(ACTIVITY_EXTRA_ERROR_KEY),Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -177,8 +177,12 @@ public class MealsActivity extends AppCompatActivity {
     }
 
     private void updateCurrentMealFragment(){
-        MealListFragment selectedFragment = getFragment(mViewPager.getCurrentItem());
-        if (selectedFragment != null){
+        updateMealFragment(mViewPager.getCurrentItem());
+    }
+
+    private void updateMealFragment(int position){
+        MealListFragment selectedFragment = getFragment(position);
+        if (selectedFragment != null) {
             selectedFragment.updateMeals();
         }
     }

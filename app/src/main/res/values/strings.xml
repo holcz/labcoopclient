@@ -23,6 +23,9 @@
     <string name="update_activity_time_hint">When did you eat it (time)?</string>
     <string name="update_activity_save_button">Save</string>
     <string name="update_activity_delete_button">Remove</string>
+    <string name="update_activity_invalid_date">Invalid date</string>
+    <string name="update_activity_invalid_text">Invalid meal name</string>
+    <string name="update_activity_invalid_calories">Invalid calories</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="today_fragment_sumCalories_label">Sum Calories today</string>
     <string name="userdeffilter_fragment_sumCalories_label">Sum Calories</string>

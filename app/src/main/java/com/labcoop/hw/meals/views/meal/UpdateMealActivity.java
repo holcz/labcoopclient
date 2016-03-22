@@ -1,8 +1,8 @@
 package com.labcoop.hw.meals.views.meal;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +15,6 @@ import com.labcoop.hw.meals.models.Meal;
 import com.labcoop.hw.meals.views.MealDateFormatHelper;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -67,14 +66,16 @@ public class UpdateMealActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Meal meal = generateMeal();
-                if (meal == null){
-                    //Should not be here
-                    Log.d("UpdateMealActivity", "Meal creation failed");
-                    setResult(RESULT_CANCELED);
-                    finish();
-                }else{
-                    save(meal);
+                if (validateTextFileds()){
+                    Meal meal = generateMeal();
+                    if (meal == null){
+                        //Should not be here
+                        Log.d("UpdateMealActivity", "Meal creation failed");
+                        setResult(RESULT_CANCELED);
+                        finish();
+                    }else{
+                        save(meal);
+                    }
                 }
             }
         });
@@ -92,6 +93,68 @@ public class UpdateMealActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean validateTextFileds(){
+        textEdit.setError(null);
+        dateEdit.setError(null);
+        caloriesEdit.setError(null);
+
+        String text = textEdit.getText().toString();
+        String date = dateEdit.getText().toString();
+        String calories = caloriesEdit.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        if (TextUtils.isEmpty(text)) {
+            textEdit.setError(getString(R.string.update_activity_invalid_text));
+            focusView = textEdit;
+            cancel = true;
+        }
+
+        if (!validateDate(date)) {
+            dateEdit.setError(getString(R.string.update_activity_invalid_date));
+            focusView = dateEdit;
+            cancel = true;
+        }
+
+        if (!validateCalories(calories)){
+            caloriesEdit.setError(getString(R.string.update_activity_invalid_calories));
+            focusView = caloriesEdit;
+            cancel = true;
+        }
+
+        if (cancel){
+            focusView.requestFocus();
+        }
+
+        return !cancel;
+    }
+
+    boolean validateCalories(String calories){
+        if (TextUtils.isEmpty(calories)){
+            return false;
+        }
+        try{
+            Integer number = Integer.valueOf(calories);
+            return number > 0;
+        }catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+    boolean validateDate(String date){
+        if (TextUtils.isEmpty(date)) {
+            return false;
+        }else{
+            try {
+                MealDateFormatHelper.dateTimeFormater().parse(date);
+            } catch (ParseException e) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Meal generateMeal(){

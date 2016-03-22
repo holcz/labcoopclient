@@ -58,7 +58,9 @@ public abstract class MealListFragment extends ListFragment implements AdapterVi
                         mealListAdapter.update(meals);
                     }
                 }else{
-                    Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+                    if (getContext() != null){
+                        Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }

@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void attemptLogin() {
 
-        if (validateTExtFileds()){
+        if (validateTextFileds()){
             String username = mUsernameView.getText().toString();
             String password = mPasswordView.getText().toString();
 
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void attemptRegister(){
-        if (validateTExtFileds()){
+        if (validateTextFileds()){
             String username = mUsernameView.getText().toString();
             String password = mPasswordView.getText().toString();
 
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validateTExtFileds(){
+    private boolean validateTextFileds(){
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
@@ -174,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 

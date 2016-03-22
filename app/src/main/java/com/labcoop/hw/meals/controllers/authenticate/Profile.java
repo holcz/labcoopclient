@@ -81,7 +81,7 @@ public class Profile {
 
     public class HttpAuthenticator implements com.labcoop.hw.meals.controllers.authenticate.Authenticator{
 
-        public static final String devURL = "http://192.168.3.5:1221/api";
+        public static final String devURL = "http://holczfalvi.com:1221/api";
 
         HttpAuthenticator(){}
 

@@ -76,7 +76,7 @@ public class MealListAdapter extends ArrayAdapter<Meal> {
     public void update(Collection<Meal> meals){
         if (meals == null) {return;}
         this.clear();
-        List<Meal> sortedMeals = new ArrayList<>(meals);
+        List<Meal> sortedMeals = new ArrayList<>(meals); //TODO: quick and dirty. The adapter should be backed by a sorted collection
         Collections.sort(sortedMeals, mealComparator);
         for (Meal meal:
                 sortedMeals) {
